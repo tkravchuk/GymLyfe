@@ -10,26 +10,57 @@ using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
-	public static int score {
+	public static int stage {
 		get {
-			return PlayerPrefs.GetInt ("score");
+			return PlayerPrefs.GetInt ("stage");
 		}
 		set{
-			PlayerPrefs.SetInt ("score", value);
+			PlayerPrefs.SetInt ("stage", value);
 		}
 	}// The player's score.
-	public static int topS {
+	public static int rest {
 		get {
-			return PlayerPrefs.GetInt ("topS");
+			return PlayerPrefs.GetInt ("rest");
 		}
 		set{
-			PlayerPrefs.SetInt ("topS", value);
+			PlayerPrefs.SetInt ("rest", value);
 		}
 	}
 
+	public static int energy {
+		get {
+			return PlayerPrefs.GetInt ("energy");
+		}
+		set{
+			PlayerPrefs.SetInt ("energy", value);
+		}
+	}
+	public static int muscle {
+		get {
+			return PlayerPrefs.GetInt ("muscle");
+		}
+		set{
+			PlayerPrefs.SetInt ("muscle", value);
+		}
+	}
+	public static int money {
+		get {
+			return PlayerPrefs.GetInt ("money");
+		}
+		set{
+			PlayerPrefs.SetInt ("money", value);
+		}
+	}
 
-	Text gameScore;                      // Reference to the Text component.
+	Text energyScore;
+	Text muscleScore;
+	Text moneyScore;
+	Text restScore;
+
+	Text stageScore;                      // Reference to the Text component.
 	Text topScore;
+
+	private bool setOriginal = false;
 
 	void Awake ()
 	{
@@ -49,6 +80,17 @@ public class ScoreManager : MonoBehaviour
 
 	}
 
+	void SetScores () 
+	{
+		if (setOriginal == false){
+			stage = 1;
+			muscle = 100;
+			rest = 100;
+			money = 100;
+			energy = 100;
+			setOriginal = true;
+		}
+	}
 
 	void Update ()
 	{
