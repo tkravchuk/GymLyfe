@@ -120,10 +120,19 @@ public class MovementScript : MonoBehaviour {
 		transform.localScale = theScale;
 	}
 
-
+	*/
 	//Called on collision
 	void OnCollisionEnter2D(Collision2D other) {
 
+		other.gameObject.SetActive (false);
+		if (other.gameObject.name.StartsWith("Wall1")) {
+			//anim.SetBool ("hit", true);
+			print("we have hit a wall");
+			SceneManager.LoadScene ("title");
+			//GameManager.Speed = 0;
+		}
+
+		/*
 		if (other.gameObject.name.StartsWith("Bat") || other.gameObject.name.StartsWith("RockT") 
 			|| other.gameObject.name.StartsWith("RockB")){
 			anim.SetBool ("hit", true);
@@ -142,7 +151,7 @@ public class MovementScript : MonoBehaviour {
 			updateOn = false;
 			StartCoroutine(delay());
 
-		}
+		}*/
 	}
 
     //Delay to allow time for animation to play before end of level
@@ -153,6 +162,6 @@ public class MovementScript : MonoBehaviour {
 
 	}
 
-	*/
+
 
 }

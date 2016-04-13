@@ -1,12 +1,13 @@
 fileFormatVersion: 2
-guid: 55b4e410255aa024fb59a870f219dd34
+guid: 13756de81688a453f815e4cc3b519459
+timeCreated: 1459972117
+licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: PlankSprite_0
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -26,44 +27,29 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: 1
+    aniso: 16
     mipBias: -1
-    wrapMode: 1
-  nPOTScale: 0
+    wrapMode: 0
+  nPOTScale: 1
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 2
+  spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
-  textureType: 8
+  alphaIsTransparency: 0
+  textureType: 0
   buildTargetSettings: []
   spriteSheet:
-    sprites:
-    - name: PlankSprite_0
-      rect:
-        serializedVersion: 2
-        x: 47
-        y: 112
-        width: 166
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -83, y: 20}
-        - {x: -83, y: -20}
-        - {x: 83, y: -20}
-        - {x: 83, y: 20}
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

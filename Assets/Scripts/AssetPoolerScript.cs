@@ -16,8 +16,8 @@ public class AssetPoolerScript : MonoBehaviour {
 	//public GameObject[] pooledObject;
 	//public int pooledAmount = 20;
 	public bool willGrow = true;
-
 	public PooledObject[] poolObject;
+
 	List<GameObject>[] pooledObjects;
 
 	void Awake(){
@@ -39,19 +39,16 @@ public class AssetPoolerScript : MonoBehaviour {
 
 	public GameObject GetPooledObject() {
 		//for (int i = 0; i < poolObject.Length; i++) {
-			var iIndex = Random.Range (0, (poolObject.Length));
+			var iIndex = Random.Range (0, (poolObject.Length-1));
 
-			//for (int j = 0; j < pooledObjects [iIndex].Count; j++) {
-				var jIndex = Random.Range (0, (pooledObjects [iIndex].Count-1));
-		if (!pooledObjects [iIndex] [jIndex].activeInHierarchy && (count != 5)) {
-			return pooledObjects [iIndex] [jIndex];
-			count++;
-		} else if (!pooledObjects [iIndex] [jIndex].activeInHierarchy && (count == 5)) {
-			return pooledObjects [poolObject.Length] [jIndex];
-			count = 0;
-		}
+		for (int j = 0; j < pooledObjects [iIndex].Count; j++) {
+				//var jIndex = Random.Range (0, (pooledObjects [iIndex].Count));
+			if (!pooledObjects [iIndex] [j].activeInHierarchy) {
+				return pooledObjects [iIndex] [j];
+			}
 
-			//}
+
+			}
 		
 			if (willGrow) {
 				GameObject obj = (GameObject)Instantiate (poolObject[iIndex].pooledObject);
@@ -60,6 +57,34 @@ public class AssetPoolerScript : MonoBehaviour {
 			}
 		//}
 	
+		return null;
+	}
+
+
+	public GameObject GetPooledObject(int iIndex) {
+		//for (int i = 0; i < poolObject.Length; i++) {
+		//var iIndex = Random.Range (0, (poolObject.Length));
+
+		//for (int j = 0; j < pooledObjects [iIndex].Count; j++) {
+		//var jIndex = Random.Range (0, (pooledObjects [iIndex].Count-1));
+		for (int j = 0; j < pooledObjects [iIndex].Count; j++) {
+			//var jIndex = Random.Range (0, (pooledObjects [iIndex].Count));
+			if (!pooledObjects [iIndex] [j].activeInHierarchy) {
+				return pooledObjects [iIndex] [j];
+			}
+
+
+		}
+
+		//}
+
+		if (willGrow) {
+			GameObject obj = (GameObject)Instantiate (poolObject[iIndex].pooledObject);
+			pooledObjects[iIndex].Add (obj);
+			return obj;
+		}
+		//}
+
 		return null;
 	}
 	

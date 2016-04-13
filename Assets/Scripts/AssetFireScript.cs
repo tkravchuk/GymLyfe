@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AssetFireScript : MonoBehaviour {
-
+	public int count = 0;
 	public float fireTime = .5f;
 	// Use this for initialization
 	void Start () {
@@ -11,14 +11,22 @@ public class AssetFireScript : MonoBehaviour {
 	}
 
 	void Fire(){
-		GameObject obj = AssetPoolerScript.current.GetPooledObject ();
+		GameObject obj;
+		if (count < 3) {
+			obj = AssetPoolerScript.current.GetPooledObject ();
+			count++;
+		} else {
+			obj = AssetPoolerScript.current.GetPooledObject (6); //change this num to last number of pooled objects for wall
+			count = 0;
+		}
+
 
 		if(obj == null) return;
 		float xpos;
 		if (obj.tag == "Wall") {
-			xpos = Random.value * 6.5f + 5.5f; //5.5 -> 12
+			xpos = Random.value * 5f + 5.5f; //5.5 -> 10.5
 		} else {
-			xpos = Random.value * 9.0f - 4.5f;
+			xpos = Random.value * 8.8f - 4.4f;  //-4.4 -> 4.4
 		}
 		obj.transform.position = transform.position;
 		obj.transform.position = new Vector2 (xpos, transform.position.y);;
