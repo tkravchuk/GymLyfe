@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class BatScript : MonoBehaviour {
-
+	/*
 	//The arrow's horizontal speed - Can change this in the Inspector
 	public float hSpeed = 3;
 
@@ -58,5 +58,5 @@ public class BatScript : MonoBehaviour {
 			//hSpeed = 0;
 			Destroy(gameObject);
 		}
-	}
+	}*/
 }

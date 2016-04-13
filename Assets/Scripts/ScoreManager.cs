@@ -58,13 +58,14 @@ public class ScoreManager : MonoBehaviour
 	Text restScore;
 
 	Text stageScore;                      // Reference to the Text component.
-	Text topScore;
+	//Text topScore;
 
 	private bool setOriginal = false;
 
 	void Awake ()
 	{
-		// Set up the reference.
+		SetScores ();
+		/* Set up the reference.
 		GameObject game = GameObject.Find ("Score");
 		gameScore = game.GetComponent <Text> ();
 		if (SceneManager.GetActiveScene ().name == "ShapeWars") {
@@ -75,7 +76,7 @@ public class ScoreManager : MonoBehaviour
 		}
 		if (topS < score) {
 			topS = score;
-		} 
+		} */
 
 
 	}
@@ -94,10 +95,10 @@ public class ScoreManager : MonoBehaviour
 
 	void Update ()
 	{
-		// Set the displayed text to be the word "Score" followed by the score value.
+		/* Set the displayed text to be the word "Score" followed by the score value.
 		gameScore.text = "Score: " + score;
 		if (SceneManager.GetActiveScene ().name == "Menu") {
 			topScore.text = "Personal Best: " + topS;
-		}
+		}*/
 	}
 }
