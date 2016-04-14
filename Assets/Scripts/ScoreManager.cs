@@ -60,15 +60,27 @@ public class ScoreManager : MonoBehaviour
 	Text stageScore;                      // Reference to the Text component.
 	//Text topScore;
 
-	private bool setOriginal = false;
+	private bool setOriginal;
 
 	void Awake ()
 	{
 		SetScores ();
-		/* Set up the reference.
-		GameObject game = GameObject.Find ("Score");
-		gameScore = game.GetComponent <Text> ();
-		if (SceneManager.GetActiveScene ().name == "ShapeWars") {
+		//Set up the reference.
+		GameObject eScore = GameObject.Find ("energyScore");
+		energyScore = eScore.GetComponent <Text> ();
+	
+		GameObject rScore = GameObject.Find ("restScore");
+		restScore = rScore.GetComponent <Text> ();
+		GameObject musScore = GameObject.Find ("muscleScore");
+		muscleScore = musScore.GetComponent <Text> ();
+		GameObject monScore = GameObject.Find ("moneyScore");
+		moneyScore = monScore.GetComponent <Text> ();
+		if (SceneManager.GetActiveScene ().name == "title") {
+			
+			GameObject sScore = GameObject.Find ("stageScore");
+			stageScore = sScore.GetComponent <Text> ();
+		}
+		/*if (SceneManager.GetActiveScene ().name == "ShapeWars") {
 			score = 0;
 		} else if (SceneManager.GetActiveScene ().name == "Menu") {
 			GameObject best = GameObject.Find ("Best");
@@ -83,22 +95,33 @@ public class ScoreManager : MonoBehaviour
 
 	void SetScores () 
 	{
-		if (setOriginal == false){
+		if (setOriginal == true){
 			stage = 1;
 			muscle = 100;
 			rest = 100;
 			money = 100;
 			energy = 100;
-			setOriginal = true;
+			setOriginal = false;
 		}
 	}
 
 	void Update ()
 	{
-		/* Set the displayed text to be the word "Score" followed by the score value.
-		gameScore.text = "Score: " + score;
-		if (SceneManager.GetActiveScene ().name == "Menu") {
-			topScore.text = "Personal Best: " + topS;
-		}*/
+		// Set the displayed text to be the word "Score" followed by the score value.
+		//gameScore.text = "Score: " + score;
+
+
+		if (SceneManager.GetActiveScene ().name == "gym") {
+			energyScore.text = "Energy: \n" + energy;
+			muscleScore.text = "Muscle: \n" + muscle;
+			moneyScore.text = "Money: \n" + money;
+			restScore.text = "Rest: \n" + rest;
+		} else if (SceneManager.GetActiveScene ().name == "title") {
+			energyScore.text = " Energy Score: " + energy;
+			muscleScore.text = " Muscle Score: " + muscle;
+			moneyScore.text = " Money Score: " + money;
+			restScore.text = " Rest Score: " + rest;
+			stageScore.text = " Stage: " + stage;
+		}
 	}
 }

@@ -4,6 +4,7 @@
 //Script for managing the players movement
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -38,15 +39,20 @@ public class MovementScript : MonoBehaviour {
 
 	//Determining what things are the ground or not
 	//public LayerMask whatIsGround;
-
-
+	public float timer = 31;
+	Text timerText;
 	// Use this for initialization
 	void Start () {
 		myRigidbody = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
 		//myRigidbody.gravityScale = gravity;
 		//clip = GameObject.Find("AudioManager").GetComponent<PlayOneShotScript>();
+		GameObject eScore = GameObject.Find ("timer");
+		timerText = eScore.GetComponent <Text> ();
 
+		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0) {
+			exitScene();
+		}
 	}
 	
 	// Update is called once per frame
@@ -64,6 +70,12 @@ public class MovementScript : MonoBehaviour {
 				myRigidbody.gravityScale = gravity * rate();
 			}
 		}*/
+
+		timer -= Time.deltaTime;
+		if (timer < 0) {
+			exitScene ();
+		}
+		timerText.text = "Timer: " + (int)timer;
 
 		if (updateOn == true) { // && Input.touchCount > 0    -- include in if stat. when using mobile platform
 
@@ -125,15 +137,40 @@ public class MovementScript : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other) {
 
 		other.gameObject.SetActive (false);
-		if (other.gameObject.name.StartsWith("Wall1")) {
-			//anim.SetBool ("hit", true);
-			print("we have hit a wall");
-			SceneManager.LoadScene ("title");
-			//GameManager.Speed = 0;
-		}
+		if (SceneManager.GetActiveScene ().name == "gym") {
+			
+			if (other.gameObject.name.StartsWith ("Wall1")) {
 
-		/*
-		if (other.gameObject.name.StartsWith("Bat") || other.gameObject.name.StartsWith("RockT") 
+				exitScene();
+			} else if (other.gameObject.name.StartsWith ("Treadmill") ||
+			           other.gameObject.name.StartsWith ("GymMember") ||
+			           other.gameObject.name.StartsWith ("Phone")) {
+				if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0) {
+					exitScene();
+				}
+				ScoreManager.muscle += 2;
+				ScoreManager.energy -= 3;
+				ScoreManager.rest -= 1;
+
+			} else if (other.gameObject.name.StartsWith ("Dumbell") ||
+			           other.gameObject.name.StartsWith ("Power-up") ||
+			           other.gameObject.name.StartsWith ("boombox")) {
+				if (ScoreManager.energy - 2 < 0 || ScoreManager.rest - 1 < 0) {
+					exitScene();
+				}
+				ScoreManager.muscle += 5;
+				ScoreManager.energy -= 2;
+				ScoreManager.rest -= 1;
+			}
+		}
+	}
+
+	void exitScene(){
+		SceneManager.LoadScene ("title");
+	}
+
+
+		/*if (other.gameObject.name.StartsWith("Bat") || other.gameObject.name.StartsWith("RockT") 
 			|| other.gameObject.name.StartsWith("RockB")){
 			anim.SetBool ("hit", true);
 
@@ -151,7 +188,7 @@ public class MovementScript : MonoBehaviour {
 			updateOn = false;
 			StartCoroutine(delay());
 
-		}*/
+		}
 	}
 
     //Delay to allow time for animation to play before end of level
@@ -160,7 +197,7 @@ public class MovementScript : MonoBehaviour {
 		yield return new WaitForSeconds (1.5f);
 		SceneManager.LoadScene ("Menu");
 
-	}
+	}*/
 
 
 
