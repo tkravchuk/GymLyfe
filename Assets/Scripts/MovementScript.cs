@@ -50,7 +50,7 @@ public class MovementScript : MonoBehaviour {
 		GameObject eScore = GameObject.Find ("timer");
 		timerText = eScore.GetComponent <Text> ();
 
-		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0) {
+		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0 || ScoreManager.money - 3 < 0 || ScoreManager.muscle - 3 < 0) {
 			exitScene();
 		}
 	}
@@ -80,7 +80,7 @@ public class MovementScript : MonoBehaviour {
 		if (updateOn == true) { // && Input.touchCount > 0    -- include in if stat. when using mobile platform
 
 			//var touch = Input.GetTouch(0);     			  -- again, only for mobile
-			if ((Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2))    //touch.position.x < Screen.width/2 || 
+			if ((Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2)  || Input.GetKey("left"))    //touch.position.x < Screen.width/2 || 
 				{
 					if (myRigidbody.transform.position.x > -xChange){
 						myRigidbody.transform.position = new Vector2 (transform.position.x-.3f, transform.position.y);
@@ -88,7 +88,7 @@ public class MovementScript : MonoBehaviour {
 					//DoLeftSideStuff();
 					}
 				}
-			else if ((Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width/2))  //touch.position.x > Screen.width/2 ||
+			else if ((Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width/2) || Input.GetKey("right"))  //touch.position.x > Screen.width/2 ||
 				{
 					if(myRigidbody.transform.position.x < xChange){
 						myRigidbody.transform.position = new Vector2 (transform.position.x+.3f, transform.position.y);
@@ -141,12 +141,12 @@ public class MovementScript : MonoBehaviour {
 			
 			if (other.gameObject.name.StartsWith ("Wall1")) {
 
-				exitScene();
+				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("Treadmill") ||
 			           other.gameObject.name.StartsWith ("GymMember") ||
 			           other.gameObject.name.StartsWith ("Phone")) {
 				if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0) {
-					exitScene();
+					exitScene ();
 				}
 				ScoreManager.muscle += 2;
 				ScoreManager.energy -= 3;
@@ -156,10 +156,32 @@ public class MovementScript : MonoBehaviour {
 			           other.gameObject.name.StartsWith ("Power-up") ||
 			           other.gameObject.name.StartsWith ("boombox")) {
 				if (ScoreManager.energy - 2 < 0 || ScoreManager.rest - 1 < 0) {
-					exitScene();
+					exitScene ();
 				}
 				ScoreManager.muscle += 5;
 				ScoreManager.energy -= 2;
+				ScoreManager.rest -= 1;
+			}
+		} else if (SceneManager.GetActiveScene ().name == "store") {
+			if (other.gameObject.name.StartsWith ("Wall2")) {
+
+				exitScene ();
+			} else if (other.gameObject.name.StartsWith ("chips") ||
+			           other.gameObject.name.StartsWith ("donut")) {
+				if (ScoreManager.money - 3 < 0 || ScoreManager.rest - 1 < 0) {
+					exitScene ();
+				}
+				ScoreManager.energy += 2;
+				ScoreManager.money -= 3;
+				ScoreManager.rest -= 1;
+
+			} else if (other.gameObject.name.StartsWith ("steak") ||
+			           other.gameObject.name.StartsWith ("Power-up")) {
+				if (ScoreManager.money - 2 < 0 || ScoreManager.rest - 1 < 0) {
+					exitScene ();
+				}
+				ScoreManager.energy += 5;
+				ScoreManager.money -= 2;
 				ScoreManager.rest -= 1;
 			}
 		}

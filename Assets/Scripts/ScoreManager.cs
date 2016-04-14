@@ -111,7 +111,10 @@ public class ScoreManager : MonoBehaviour
 		//gameScore.text = "Score: " + score;
 
 
-		if (SceneManager.GetActiveScene ().name == "gym") {
+		if (SceneManager.GetActiveScene ().name == "gym" ||
+			SceneManager.GetActiveScene ().name == "work" ||
+			SceneManager.GetActiveScene ().name == "store" ||
+			SceneManager.GetActiveScene ().name == "home") {
 			energyScore.text = "Energy: \n" + energy;
 			muscleScore.text = "Muscle: \n" + muscle;
 			moneyScore.text = "Money: \n" + money;

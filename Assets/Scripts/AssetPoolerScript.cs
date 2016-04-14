@@ -17,7 +17,7 @@ public class AssetPoolerScript : MonoBehaviour {
 	//public int pooledAmount = 20;
 	public bool willGrow = true;
 	public PooledObject[] poolObject;
-
+	public int amount;
 	List<GameObject>[] pooledObjects;
 
 	void Awake(){
@@ -35,6 +35,7 @@ public class AssetPoolerScript : MonoBehaviour {
 				pooledObjects[j].Add (obj);
 			}
 		}
+		amount = poolObject.Length;
 	}
 
 	public GameObject GetPooledObject() {

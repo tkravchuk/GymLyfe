@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+
 
 public class AssetFireScript : MonoBehaviour {
 	public int count = 0;
@@ -12,11 +14,13 @@ public class AssetFireScript : MonoBehaviour {
 
 	void Fire(){
 		GameObject obj;
+		//GameObject pool = GameObject.name.StartsWith("Pool");
+
 		if (count < 3) {
 			obj = AssetPoolerScript.current.GetPooledObject ();
 			count++;
 		} else {
-			obj = AssetPoolerScript.current.GetPooledObject (6); //change this num to last number of pooled objects for wall
+			obj = AssetPoolerScript.current.GetPooledObject (AssetPoolerScript.current.amount - 1); //change this num to last number of pooled objects for wall
 			count = 0;
 		}
 

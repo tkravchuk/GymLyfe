@@ -899,9 +899,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 915132675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc9e65bd3a11b4b749b3815a4b8db818, type: 3}
+  m_Script: {fileID: 11500000, guid: 72d8e493ec6bc48689a3ffdadc5539a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelToLoad: store
 --- !u!114 &915132678
 MonoBehaviour:
   m_ObjectHideFlags: 0
