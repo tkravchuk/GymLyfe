@@ -110,6 +110,7 @@ public class ScoreManager : MonoBehaviour
 		}*/
 
 		stage = 1;
+		MovementScript.stageChange = stage;
 		muscle = 100;
 		rest = 100;
 		money = 100;

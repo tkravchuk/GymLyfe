@@ -129,7 +129,11 @@ public class MovementScript : MonoBehaviour {
 		if (ScoreManager.energy >= 200
 		    && ScoreManager.muscle >= 200
 		    && ScoreManager.rest >= 200
-		    && ScoreManager.money >= 200) {
+		    && ScoreManager.money >= 200
+			&& ScoreManager.energy < 300
+			&& ScoreManager.muscle < 300
+			&& ScoreManager.rest < 300
+			&& ScoreManager.money < 300) {
 			//return 1.3f;
 			//AssetPoolerScript.current.setSpeed (4.5f);
 			//AssetMovementScript.current.AssetSpeed = 14.3f;
@@ -139,7 +143,11 @@ public class MovementScript : MonoBehaviour {
 		} else if (ScoreManager.energy >= 300
 		           && ScoreManager.muscle >= 300
 		           && ScoreManager.rest >= 300
-		           && ScoreManager.money >= 300) {
+		           && ScoreManager.money >= 300
+					&& ScoreManager.energy < 400
+					&& ScoreManager.muscle < 400
+					&& ScoreManager.rest < 400
+					&& ScoreManager.money < 400) {
 			//return 1.6f;
 			//AssetPoolerScript.current.setSpeed (6f);
 			ScrollFloor.current.scrollSpeed = 6f;
@@ -150,7 +158,11 @@ public class MovementScript : MonoBehaviour {
 		} else if (ScoreManager.energy >= 400
 		           && ScoreManager.muscle >= 400
 		           && ScoreManager.rest >= 400
-		           && ScoreManager.money >= 400) {
+		           && ScoreManager.money >= 400
+			&& ScoreManager.energy < 500
+			&& ScoreManager.muscle < 500
+			&& ScoreManager.rest < 500
+			&& ScoreManager.money < 500) {
 			//return 2.1f;
 			//AssetPoolerScript.current.setSpeed (8f);
 			ScrollFloor.current.scrollSpeed = 8f;
