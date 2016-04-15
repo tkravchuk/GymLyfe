@@ -52,6 +52,15 @@ public class ScoreManager : MonoBehaviour
 		}
 	}
 
+	private static int setLock {
+		get {
+			return PlayerPrefs.GetInt ("setLock");
+		}
+		set{
+			PlayerPrefs.SetInt ("setLock", value);
+		}
+	}
+
 	Text energyScore;
 	Text muscleScore;
 	Text moneyScore;
@@ -60,12 +69,13 @@ public class ScoreManager : MonoBehaviour
 	Text stageScore;                      // Reference to the Text component.
 	//Text topScore;
 
-	private bool setOriginal;
 
 	void Awake ()
 	{
-		SetScores ();
-		//Set up the reference.
+		if (setLock < 1) {
+			SetScores ();
+			setLock = 1;
+		}		//Set up the reference.
 		GameObject eScore = GameObject.Find ("energyScore");
 		energyScore = eScore.GetComponent <Text> ();
 	
@@ -95,14 +105,16 @@ public class ScoreManager : MonoBehaviour
 
 	void SetScores () 
 	{
-		if (setOriginal == true){
-			stage = 1;
-			muscle = 100;
-			rest = 100;
-			money = 100;
-			energy = 100;
-			setOriginal = false;
-		}
+		/*if (setOriginal == 0) {
+			setLock = 1;
+		}*/
+
+		stage = 1;
+		muscle = 100;
+		rest = 100;
+		money = 100;
+		energy = 100;
+
 	}
 
 	void Update ()

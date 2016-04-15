@@ -39,7 +39,7 @@ public class MovementScript : MonoBehaviour {
 
 	//Determining what things are the ground or not
 	//public LayerMask whatIsGround;
-	public float timer = 31;
+	public float timer = 61;
 	Text timerText;
 	// Use this for initialization
 	void Start () {
@@ -50,13 +50,25 @@ public class MovementScript : MonoBehaviour {
 		GameObject eScore = GameObject.Find ("timer");
 		timerText = eScore.GetComponent <Text> ();
 
-		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0 || ScoreManager.money - 3 < 0 || ScoreManager.muscle - 3 < 0) {
+		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 2 < 0 || ScoreManager.money - 3 < 0 || ScoreManager.muscle - 3 < 0) {
 			exitScene();
 		}
+		rate ();
 	}
 	
 	// Update is called once per frame
+
 	void Update () {
+		//stageChange = ScoreManager.stage;
+
+		rate ();
+		if (stageChange != ScoreManager.stage) {
+			stageChange = ScoreManager.stage;
+			rate ();
+			//onGUI ();
+			StartCoroutine(delay());
+			exitScene ();
+		}
 		/*if (updateOn == true) {
 			if (Input.GetButtonDown ("Jump") && myRigidbody.gravityScale > 0) {
 				Flip ();
@@ -73,6 +85,7 @@ public class MovementScript : MonoBehaviour {
 
 		timer -= Time.deltaTime;
 		if (timer < 0) {
+
 			exitScene ();
 		}
 		timerText.text = "Timer: " + (int)timer;
@@ -94,23 +107,64 @@ public class MovementScript : MonoBehaviour {
 						myRigidbody.transform.position = new Vector2 (transform.position.x+.3f, transform.position.y);
 					//DoRightSideStuff();
 					}
-				}
+			}
 		}
 
 	}
 
-
-	/*float rate() {
-		if (ScoreManager.score < 20) {
-			return 1f;
-		} else if (ScoreManager.score < 50) {
-			return 1.5f;
-		} else if (ScoreManager.score < 100) {
-			return 2.5f;
-		} else {
-			return 3f;
-		}			
+	/*void onGUI(){
+		GUI.Label (new Rect (0, 0, Screen.width / 2, Screen.height / 2), "Your stage has changed to Stage: "+ScoreManager.stage );
 	}*/
+
+	public static int stageChange {
+		get {
+			return PlayerPrefs.GetInt ("stageChange");
+		}
+		set{
+			PlayerPrefs.SetInt ("stageChange", value);
+		}
+	}
+
+	void rate() {
+		if (ScoreManager.energy >= 200
+		    && ScoreManager.muscle >= 200
+		    && ScoreManager.rest >= 200
+		    && ScoreManager.money >= 200) {
+			//return 1.3f;
+			//AssetPoolerScript.current.setSpeed (4.5f);
+			//AssetMovementScript.current.AssetSpeed = 14.3f;
+			ScrollFloor.current.scrollSpeed = 4.5f;
+			ScoreManager.stage = 2;
+			//exitScene ();
+		} else if (ScoreManager.energy >= 300
+		           && ScoreManager.muscle >= 300
+		           && ScoreManager.rest >= 300
+		           && ScoreManager.money >= 300) {
+			//return 1.6f;
+			//AssetPoolerScript.current.setSpeed (6f);
+			ScrollFloor.current.scrollSpeed = 6f;
+			ScoreManager.stage = 3;
+			//exitScene ();
+
+
+		} else if (ScoreManager.energy >= 400
+		           && ScoreManager.muscle >= 400
+		           && ScoreManager.rest >= 400
+		           && ScoreManager.money >= 400) {
+			//return 2.1f;
+			//AssetPoolerScript.current.setSpeed (8f);
+			ScrollFloor.current.scrollSpeed = 8f;
+			ScoreManager.stage = 4;
+			//exitScene ();
+
+
+		} else {
+			//AssetPoolerScript.current.setSpeed (3f);
+			ScrollFloor.current.scrollSpeed = 3f;
+			ScoreManager.stage = 1;
+			//exitScene ();
+		}
+	}
 	/*
 	// Update is called once per *physics timestep*
 	void FixedUpdate() {
@@ -184,6 +238,39 @@ public class MovementScript : MonoBehaviour {
 				ScoreManager.money -= 2;
 				ScoreManager.rest -= 1;
 			}
+		} else if (SceneManager.GetActiveScene ().name == "work") {
+			if (other.gameObject.name.StartsWith ("Wall3")) {
+
+				exitScene ();
+			} else if (other.gameObject.name.StartsWith ("donut")) {
+				if (ScoreManager.muscle - 3 < 0 || ScoreManager.rest - 1 < 0) {
+					exitScene ();
+				}
+				ScoreManager.muscle -= 3;
+				ScoreManager.rest -= 1;
+
+			} else if (other.gameObject.name.StartsWith ("money")) {
+				if (ScoreManager.rest - 1 < 0) {
+					exitScene ();
+				}
+				ScoreManager.money += 5;
+				ScoreManager.rest -= 1;
+			}
+		} else if (SceneManager.GetActiveScene ().name == "home") {
+			if (other.gameObject.name.StartsWith ("Wall4")) {
+
+				exitScene ();
+			} else if (other.gameObject.name.StartsWith ("tv") ||
+				other.gameObject.name.StartsWith ("controller")) {
+				if (ScoreManager.rest - 2 < 0) {
+					exitScene ();
+				}
+				ScoreManager.rest -= 2;
+
+			} else if (other.gameObject.name.StartsWith ("bed")) {
+				
+				ScoreManager.rest += 5;
+			}
 		}
 	}
 
@@ -212,14 +299,14 @@ public class MovementScript : MonoBehaviour {
 
 		}
 	}
-
+*/
     //Delay to allow time for animation to play before end of level
 	IEnumerator delay(){
 
-		yield return new WaitForSeconds (1.5f);
-		SceneManager.LoadScene ("Menu");
+		yield return new WaitForSeconds (8f);
+		//SceneManager.LoadScene ("Menu");
 
-	}*/
+	}
 
 
 

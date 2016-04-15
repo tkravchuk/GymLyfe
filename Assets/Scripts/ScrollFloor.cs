@@ -9,9 +9,11 @@ using System.Collections;
 public class ScrollFloor : MonoBehaviour
 {
 	public float scrollSpeed;
+	public static ScrollFloor current;
 
 	void Start ()
 	{
+		current = this;
 	}
 
 	void Update ()

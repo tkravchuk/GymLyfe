@@ -31,12 +31,14 @@ public class AssetPoolerScript : MonoBehaviour {
 			pooledObjects [j] = new List<GameObject> ();
 			for (int i = 0; i < poolObject[j].pooledAmount; i++) {
 				GameObject obj = (GameObject)Instantiate (poolObject[j].pooledObject);
+				setSpeed (rate (), obj);
 				obj.SetActive (false);
 				pooledObjects[j].Add (obj);
 			}
 		}
 		amount = poolObject.Length;
 	}
+
 
 	public GameObject GetPooledObject() {
 		//for (int i = 0; i < poolObject.Length; i++) {
@@ -61,6 +63,35 @@ public class AssetPoolerScript : MonoBehaviour {
 		return null;
 	}
 
+	public void setSpeed(float rate, GameObject obj){
+		/*for(int i = 0; i < pooledObjects.; i++){
+			for (int j = 0; i < pooledObjects [i].Count; j++) {
+				if (pooledObjects [i] [j].activeInHierarchy) {
+
+					AssetMovementScript a = pooledObjects [i] [j].GetComponent<AssetMovementScript> ();//GameObject.GetComponents<> (AssetMovementScript.AssetSpeed) = rate;
+					a.AssetSpeed = rate;
+				}
+			}
+		}*/
+		AssetMovementScript a = obj.GetComponent<AssetMovementScript> ();//GameObject.GetComponents<> (AssetMovementScript.AssetSpeed) = rate;
+		a.AssetSpeed = rate;
+	}
+
+	public float rate(){
+		switch(ScoreManager.stage){
+		case 1:
+			return 3f;
+		case 2:
+			return 4.5f;
+		case 3:
+			return 6f;
+		case 4:
+			return 8f;
+		default:
+			return 3f;
+		}
+	}
+				
 
 	public GameObject GetPooledObject(int iIndex) {
 		//for (int i = 0; i < poolObject.Length; i++) {

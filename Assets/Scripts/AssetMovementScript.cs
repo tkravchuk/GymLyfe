@@ -5,6 +5,7 @@ public class AssetMovementScript : MonoBehaviour {
 
 	// Use this for initialization
 	public float AssetSpeed = 3;
+	public static AssetMovementScript current;
 	void Start () {
 		/*GameObject obj = AssetPoolerScript.current.GetPooledObject ();
 
@@ -12,6 +13,10 @@ public class AssetMovementScript : MonoBehaviour {
 
 		obj.transform.position = gameObject.transform.position;
 		obj.SetActive (true);*/
+		//current = this;
+	}
+	void Awake(){
+		current = this;
 	}
 	
 	void Update () {
