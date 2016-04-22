@@ -654,7 +654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 10
   xChange: 4.3
-  timer: 61
+  timer: 46
 --- !u!50 &1435123140
 Rigidbody2D:
   serializedVersion: 2
@@ -776,8 +776,8 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.1874, y: -51}
-  m_SizeDelta: {x: 519.84, y: 64}
+  m_AnchoredPosition: {x: 0.061679, y: -70}
+  m_SizeDelta: {x: 520.34, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1617892135
 MonoBehaviour:
@@ -800,11 +800,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 70
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1

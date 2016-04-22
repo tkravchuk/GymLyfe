@@ -78,18 +78,7 @@ public class AssetPoolerScript : MonoBehaviour {
 	}
 
 	public float rate(){
-		switch(ScoreManager.stage){
-		case 1:
-			return 3f;
-		case 2:
-			return 4.5f;
-		case 3:
-			return 6f;
-		case 4:
-			return 8f;
-		default:
-			return 3f;
-		}
+		return 3f + 1.5f * ScoreManager.stage;
 	}
 				
 

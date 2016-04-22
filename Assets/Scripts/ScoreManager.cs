@@ -72,6 +72,8 @@ public class ScoreManager : MonoBehaviour
 
 	void Awake ()
 	{
+		//SetScores ();
+
 		if (setLock < 1) {
 			SetScores ();
 			setLock = 1;

@@ -2,7 +2,7 @@
 //CPSC 466 Game Programming
 //CaveRunner
 //Script for managing the players movement
-
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -39,7 +39,7 @@ public class MovementScript : MonoBehaviour {
 
 	//Determining what things are the ground or not
 	//public LayerMask whatIsGround;
-	public float timer = 61;
+	public float timer = 46;
 	Text timerText;
 	// Use this for initialization
 	void Start () {
@@ -50,38 +50,45 @@ public class MovementScript : MonoBehaviour {
 		GameObject eScore = GameObject.Find ("timer");
 		timerText = eScore.GetComponent <Text> ();
 
-		if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 2 < 0 || ScoreManager.money - 3 < 0 || ScoreManager.muscle - 3 < 0) {
-			exitScene();
-		}
+		checkScores ();
 		rate ();
 	}
-	
+
+
+	void checkScores(){
+		if (SceneManager.GetActiveScene ().name == "gym") {
+
+				if (ScoreManager.energy - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+					exitScene ();
+				}
+
+		} else if (SceneManager.GetActiveScene ().name == "store") {
+				if (ScoreManager.money - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+					exitScene ();
+				}
+
+		} else if (SceneManager.GetActiveScene ().name == "work") {
+				if (ScoreManager.muscle - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+					exitScene ();
+				}
+
+		} else if (SceneManager.GetActiveScene ().name == "home") {
+				if (ScoreManager.muscle - 3 <= 0 || ScoreManager.energy - 2 <= 0) {
+					exitScene ();
+				}
+
+		}
+	}
+
 	// Update is called once per frame
 
 	void Update () {
 		//stageChange = ScoreManager.stage;
-
+		print(AssetFireScript.current.fireTime);
+		checkScores();
 		rate ();
-		if (stageChange != ScoreManager.stage) {
-			stageChange = ScoreManager.stage;
-			rate ();
-			//onGUI ();
-			StartCoroutine(delay());
-			exitScene ();
-		}
-		/*if (updateOn == true) {
-			if (Input.GetButtonDown ("Jump") && myRigidbody.gravityScale > 0) {
-				Flip ();
-				grounded = false;
-				myRigidbody.AddForce (new Vector2 (0, jumpForce));
-				myRigidbody.gravityScale = -gravity * rate();
-			} else if (Input.GetButtonDown ("Jump") && myRigidbody.gravityScale < 0) {
-				Flip ();
-				grounded = false;
-				myRigidbody.AddForce (new Vector2 (0, -jumpForce));
-				myRigidbody.gravityScale = gravity * rate();
-			}
-		}*/
+
+
 
 		timer -= Time.deltaTime;
 		if (timer < 0) {
@@ -126,158 +133,124 @@ public class MovementScript : MonoBehaviour {
 	}
 
 	void rate() {
-		if (ScoreManager.energy >= 200
-		    && ScoreManager.muscle >= 200
-		    && ScoreManager.rest >= 200
-		    && ScoreManager.money >= 200
-			&& ScoreManager.energy < 300
-			&& ScoreManager.muscle < 300
-			&& ScoreManager.rest < 300
-			&& ScoreManager.money < 300) {
-			//return 1.3f;
-			//AssetPoolerScript.current.setSpeed (4.5f);
-			//AssetMovementScript.current.AssetSpeed = 14.3f;
-			ScrollFloor.current.scrollSpeed = 4.5f;
-			ScoreManager.stage = 2;
-			//exitScene ();
-		} else if (ScoreManager.energy >= 300
-		           && ScoreManager.muscle >= 300
-		           && ScoreManager.rest >= 300
-		           && ScoreManager.money >= 300
-					&& ScoreManager.energy < 400
-					&& ScoreManager.muscle < 400
-					&& ScoreManager.rest < 400
-					&& ScoreManager.money < 400) {
-			//return 1.6f;
-			//AssetPoolerScript.current.setSpeed (6f);
-			ScrollFloor.current.scrollSpeed = 6f;
-			ScoreManager.stage = 3;
-			//exitScene ();
-
-
-		} else if (ScoreManager.energy >= 400
-		           && ScoreManager.muscle >= 400
-		           && ScoreManager.rest >= 400
-		           && ScoreManager.money >= 400
-			&& ScoreManager.energy < 500
-			&& ScoreManager.muscle < 500
-			&& ScoreManager.rest < 500
-			&& ScoreManager.money < 500) {
-			//return 2.1f;
-			//AssetPoolerScript.current.setSpeed (8f);
-			ScrollFloor.current.scrollSpeed = 8f;
-			ScoreManager.stage = 4;
-			//exitScene ();
-
-
-		} else {
-			//AssetPoolerScript.current.setSpeed (3f);
-			ScrollFloor.current.scrollSpeed = 3f;
-			ScoreManager.stage = 1;
-			//exitScene ();
+		ScoreManager.stage = Math.Max (Math.Min (Math.Min (ScoreManager.muscle / 100, ScoreManager.energy / 100), 
+			Math.Min (ScoreManager.rest / 100, ScoreManager.money / 100)), ScoreManager.stage);
+		ScrollFloor.current.scrollSpeed = ScoreManager.stage * 1.5f + 3f;
+		//AssetFireScript.current.fireTime = .5f;
+		if (stageChange != ScoreManager.stage) {
+			stageChange = ScoreManager.stage;
+			//rate ();
+			ScrollFloor.current.scrollSpeed = ScoreManager.stage * 1.5f + 3f;
+			if (AssetFireScript.current.fireTime >= .2) {
+				AssetFireScript.current.fireTime -= .2f;
+			}
+			//onGUI ();
+			//StartCoroutine(delay());
+			exitScene ();
 		}
-	}
-	/*
-	// Update is called once per *physics timestep*
-	void FixedUpdate() {
-
-		//Determining if the ground check spot has hit anywhere (on the ground)
-		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
-
-		anim.SetBool ("grounded", grounded);
 
 	}
 
-	//Called when we want to flip our player from pointing one direction to the other
-	void Flip() {
-		facingRight = !facingRight;
-		Vector3 theScale = transform.localScale;
-
-		// Flip the graphic using scale
-		theScale.y *= -1; 
-		transform.localScale = theScale;
-	}
-
-	*/
 	//Called on collision
 	void OnCollisionEnter2D(Collision2D other) {
-
+		int multiplier = 1;
 		other.gameObject.SetActive (false);
 		if (SceneManager.GetActiveScene ().name == "gym") {
-			
+			if ((ScoreManager.muscle / 100) - ScoreManager.stage >= 2) {
+				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			} else {
+				multiplier = 1;
+			}
 			if (other.gameObject.name.StartsWith ("Wall1")) {
 
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("Treadmill") ||
 			           other.gameObject.name.StartsWith ("GymMember") ||
 			           other.gameObject.name.StartsWith ("Phone")) {
-				if (ScoreManager.energy - 3 < 0 || ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.energy - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
 				ScoreManager.muscle += 2;
-				ScoreManager.energy -= 3;
-				ScoreManager.rest -= 1;
+				ScoreManager.energy -= 3 * multiplier;
+				ScoreManager.rest -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("Dumbell") ||
 			           other.gameObject.name.StartsWith ("Power-up") ||
 			           other.gameObject.name.StartsWith ("boombox")) {
-				if (ScoreManager.energy - 2 < 0 || ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.energy - 2 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
 				ScoreManager.muscle += 5;
-				ScoreManager.energy -= 2;
-				ScoreManager.rest -= 1;
+				ScoreManager.energy -= 2 * multiplier;
+				ScoreManager.rest -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "store") {
+			if ((ScoreManager.energy / 100) - ScoreManager.stage >= 2) {
+				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			} else {
+				multiplier = 1;
+			}
 			if (other.gameObject.name.StartsWith ("Wall2")) {
 
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("chips") ||
 			           other.gameObject.name.StartsWith ("donut")) {
-				if (ScoreManager.money - 3 < 0 || ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.money - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
 				ScoreManager.energy += 2;
-				ScoreManager.money -= 3;
-				ScoreManager.rest -= 1;
+				ScoreManager.money -= 3 * multiplier;
+				ScoreManager.rest -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("steak") ||
 			           other.gameObject.name.StartsWith ("Power-up")) {
-				if (ScoreManager.money - 2 < 0 || ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.money - 2 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
 				ScoreManager.energy += 5;
-				ScoreManager.money -= 2;
-				ScoreManager.rest -= 1;
+				ScoreManager.money -= 2 * multiplier;
+				ScoreManager.rest -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "work") {
+			if ((ScoreManager.money / 100) - ScoreManager.stage >= 2) {
+				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			} else {
+				multiplier = 1;
+			}
 			if (other.gameObject.name.StartsWith ("Wall3")) {
 
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("donut")) {
-				if (ScoreManager.muscle - 3 < 0 || ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.muscle - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
-				ScoreManager.muscle -= 3;
-				ScoreManager.rest -= 1;
+				ScoreManager.muscle -= 3 * multiplier;
+				ScoreManager.rest -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("money")) {
-				if (ScoreManager.rest - 1 < 0) {
+				if (ScoreManager.rest - 1 * multiplier <= 0) {
 					exitScene ();
 				}
 				ScoreManager.money += 5;
-				ScoreManager.rest -= 1;
+				ScoreManager.rest -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "home") {
+			if ((ScoreManager.rest / 100) - ScoreManager.stage >= 2) {
+				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			} else {
+				multiplier = 1;
+			}
 			if (other.gameObject.name.StartsWith ("Wall4")) {
 
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("tv") ||
 				other.gameObject.name.StartsWith ("controller")) {
-				if (ScoreManager.rest - 2 < 0) {
+				if (ScoreManager.muscle - 3  * multiplier <= 0 || ScoreManager.energy - 2 * multiplier <= 0) {
 					exitScene ();
 				}
-				ScoreManager.rest -= 2;
+				ScoreManager.muscle -= 3 * multiplier;
+				ScoreManager.energy -= 2 * multiplier;
+
 
 			} else if (other.gameObject.name.StartsWith ("bed")) {
 				
