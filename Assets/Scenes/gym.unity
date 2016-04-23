@@ -1231,6 +1231,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 10
   xChange: 4.3
+  muscleSum: 0
+  energySum: 0
+  restSum: 0
+  moneySum: 0
   timer: 46
 --- !u!1 &1933648116
 GameObject:

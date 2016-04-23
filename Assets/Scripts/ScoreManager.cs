@@ -145,10 +145,10 @@ public class ScoreManager : MonoBehaviour
 			SceneManager.GetActiveScene ().name == "work" ||
 			SceneManager.GetActiveScene ().name == "store" ||
 			SceneManager.GetActiveScene ().name == "home") {
-			energyScore.text = "Energy: \n" + energy;
-			muscleScore.text = "Muscle: \n" + muscle;
-			moneyScore.text = "Money: \n" + money;
-			restScore.text = "Rest: \n" + rest;
+			energyScore.text = "Energy: \n" + (energy + MovementScript.current.energySum);
+			muscleScore.text = "Muscle: \n" + (muscle + MovementScript.current.muscleSum);
+			moneyScore.text = "Money: \n" + (money + MovementScript.current.moneySum);
+			restScore.text = "Rest: \n" + (rest + MovementScript.current.restSum);
 		} else if (SceneManager.GetActiveScene ().name == "title") {
 			energyScore.text = " Energy Score: " + energy;
 			muscleScore.text = " Muscle Score: " + muscle;

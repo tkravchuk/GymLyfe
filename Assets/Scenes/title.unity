@@ -1193,7 +1193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d83f38a00f74b9e951d3a6a299ba43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setLock: 0
 --- !u!224 &954953310
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1739,8 +1738,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1393598829}
-        m_MethodName: 
+      - m_Target: {fileID: 1393598831}
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

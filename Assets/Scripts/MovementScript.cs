@@ -15,7 +15,11 @@ public class MovementScript : MonoBehaviour {
 	public float xChange;
 	private bool updateOn = true;
 	private PlayOneShotScript clip;
-
+	public static MovementScript current;
+	public int muscleSum;
+	public int energySum;
+	public int restSum;
+	public int moneySum;
 
 	Rigidbody2D myRigidbody;
 
@@ -23,39 +27,62 @@ public class MovementScript : MonoBehaviour {
 	Text timerText;
 	// Use this for initialization
 	void Start () {
+		current = this;
 		myRigidbody = GetComponent<Rigidbody2D> ();
 		//myRigidbody.gravityScale = gravity;
 		//clip = GameObject.Find("AudioManager").GetComponent<PlayOneShotScript>();
 		GameObject eScore = GameObject.Find ("timer");
 		timerText = eScore.GetComponent <Text> ();
 
+		muscleSum = 0;
+		energySum = 0;
+		restSum = 0;
+		moneySum = 0;
+
 		checkScores ();
 		rate ();
+
+
 	}
 
 
 	void checkScores(){
 		if (SceneManager.GetActiveScene ().name == "gym") {
 
-				if (ScoreManager.energy - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+				if (ScoreManager.energy + energySum - 3 <= 0 || ScoreManager.rest + restSum - 1 <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
 
 		} else if (SceneManager.GetActiveScene ().name == "store") {
-				if (ScoreManager.money - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+				if (ScoreManager.money + moneySum - 3 <= 0 || ScoreManager.rest + restSum - 1 <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
 
 		} else if (SceneManager.GetActiveScene ().name == "work") {
-				if (ScoreManager.muscle - 3 <= 0 || ScoreManager.rest - 1 <= 0) {
+				if (ScoreManager.muscle + muscleSum - 3 <= 0 || ScoreManager.rest + restSum - 1 <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
 
 		} else if (SceneManager.GetActiveScene ().name == "home") {
-				if (ScoreManager.muscle - 3 <= 0 || ScoreManager.energy - 2 <= 0) {
+				if (ScoreManager.muscle + muscleSum - 3 <= 0 || ScoreManager.energy + energySum - 2 <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-
 		}
 	}
 
@@ -71,7 +98,10 @@ public class MovementScript : MonoBehaviour {
 
 		timer -= Time.deltaTime;
 		if (timer < 0) {
-
+			ScoreManager.energy += energySum;
+			ScoreManager.rest += restSum;
+			ScoreManager.money += moneySum;
+			ScoreManager.muscle += muscleSum;
 			exitScene ();
 		}
 		timerText.text = "Timer: " + (int)timer;
@@ -136,8 +166,8 @@ public class MovementScript : MonoBehaviour {
 		int multiplier = 1;
 		other.gameObject.SetActive (false);
 		if (SceneManager.GetActiveScene ().name == "gym") {
-			if ((ScoreManager.muscle / 100) - ScoreManager.stage >= 2) {
-				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			if (((ScoreManager.muscle + muscleSum) / 100) - ScoreManager.stage >= 2) {
+				multiplier = (ScoreManager.muscle + muscleSum) / 100 - ScoreManager.stage;
 			} else {
 				multiplier = 1;
 			}
@@ -147,26 +177,34 @@ public class MovementScript : MonoBehaviour {
 			} else if (other.gameObject.name.StartsWith ("Treadmill") ||
 			           other.gameObject.name.StartsWith ("GymMember") ||
 			           other.gameObject.name.StartsWith ("Phone")) {
-				if (ScoreManager.energy - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
+				if (ScoreManager.energy + energySum - 3 * multiplier <= 0 || ScoreManager.rest + restSum - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.muscle += 2;
-				ScoreManager.energy -= 3 * multiplier;
-				ScoreManager.rest -= 1 * multiplier;
+				muscleSum += 2;
+				energySum -= 3 * multiplier;
+				restSum -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("Dumbell") ||
 			           other.gameObject.name.StartsWith ("Power-up") ||
 			           other.gameObject.name.StartsWith ("boombox")) {
-				if (ScoreManager.energy - 2 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
+				if (ScoreManager.energy + energySum - 2 * multiplier <= 0 || ScoreManager.rest + restSum - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.muscle += 5;
-				ScoreManager.energy -= 2 * multiplier;
-				ScoreManager.rest -= 1 * multiplier;
+				muscleSum += 5;
+				energySum -= 2 * multiplier;
+				restSum -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "store") {
-			if ((ScoreManager.energy / 100) - ScoreManager.stage >= 2) {
-				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			if (((ScoreManager.energy + energySum) / 100) - ScoreManager.stage >= 2) {
+				multiplier = (ScoreManager.energy + energySum) / 100 - ScoreManager.stage;
 			} else {
 				multiplier = 1;
 			}
@@ -175,25 +213,33 @@ public class MovementScript : MonoBehaviour {
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("chips") ||
 			           other.gameObject.name.StartsWith ("donut")) {
-				if (ScoreManager.money - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
+				if (ScoreManager.money + moneySum - 3 * multiplier <= 0 || ScoreManager.rest + restSum - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.energy += 2;
-				ScoreManager.money -= 3 * multiplier;
-				ScoreManager.rest -= 1 * multiplier;
+				energySum += 2;
+				moneySum -= 3 * multiplier;
+				restSum -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("steak") ||
 			           other.gameObject.name.StartsWith ("Power-up")) {
-				if (ScoreManager.money - 2 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
+				if (ScoreManager.money + moneySum - 2 * multiplier <= 0 || ScoreManager.rest + restSum - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.energy += 5;
-				ScoreManager.money -= 2 * multiplier;
-				ScoreManager.rest -= 1 * multiplier;
+				energySum += 5;
+				moneySum -= 2 * multiplier;
+				restSum -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "work") {
-			if ((ScoreManager.money / 100) - ScoreManager.stage >= 2) {
-				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			if (((ScoreManager.money + moneySum) / 100) - ScoreManager.stage >= 2) {
+				multiplier = (ScoreManager.money + moneySum) / 100 - ScoreManager.stage;
 			} else {
 				multiplier = 1;
 			}
@@ -202,21 +248,29 @@ public class MovementScript : MonoBehaviour {
 				exitScene ();
 			} else if (other.gameObject.name.StartsWith ("donut")) {
 				if (ScoreManager.muscle - 3 * multiplier <= 0 || ScoreManager.rest - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.muscle -= 3 * multiplier;
-				ScoreManager.rest -= 1 * multiplier;
+				muscleSum -= 3 * multiplier;
+				restSum -= 1 * multiplier;
 
 			} else if (other.gameObject.name.StartsWith ("money")) {
 				if (ScoreManager.rest - 1 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.money += 5;
-				ScoreManager.rest -= 1 * multiplier;
+				moneySum += 5;
+				restSum -= 1 * multiplier;
 			}
 		} else if (SceneManager.GetActiveScene ().name == "home") {
-			if ((ScoreManager.rest / 100) - ScoreManager.stage >= 2) {
-				multiplier = ScoreManager.muscle / 100 - ScoreManager.stage;
+			if (((ScoreManager.rest + restSum) / 100) - ScoreManager.stage >= 2) {
+				multiplier = (ScoreManager.rest + restSum) / 100 - ScoreManager.stage;
 			} else {
 				multiplier = 1;
 			}
@@ -226,15 +280,19 @@ public class MovementScript : MonoBehaviour {
 			} else if (other.gameObject.name.StartsWith ("tv") ||
 				other.gameObject.name.StartsWith ("controller")) {
 				if (ScoreManager.muscle - 3  * multiplier <= 0 || ScoreManager.energy - 2 * multiplier <= 0) {
+					ScoreManager.energy += energySum;
+					ScoreManager.rest += restSum;
+					ScoreManager.money += moneySum;
+					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				ScoreManager.muscle -= 3 * multiplier;
-				ScoreManager.energy -= 2 * multiplier;
+				muscleSum -= 3 * multiplier;
+				energySum -= 2 * multiplier;
 
 
 			} else if (other.gameObject.name.StartsWith ("bed")) {
 				
-				ScoreManager.rest += 5;
+				restSum += 5;
 			}
 		}
 	}
