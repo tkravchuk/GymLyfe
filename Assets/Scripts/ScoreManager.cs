@@ -72,7 +72,7 @@ public class ScoreManager : MonoBehaviour
 
 	void Awake ()
 	{
-		//SetScores ();
+		//resetScores (699, 6);
 
 		if (setLock < 1) {
 			SetScores ();
@@ -117,6 +117,21 @@ public class ScoreManager : MonoBehaviour
 		rest = 100;
 		money = 100;
 		energy = 100;
+
+	}
+
+	void resetScores (int n, int st) 
+	{
+		/*if (setOriginal == 0) {
+			setLock = 1;
+		}*/
+
+		stage = st;
+		MovementScript.stageChange = stage;
+		muscle = n;
+		rest = n+8;
+		money = n+8;
+		energy = n+8;
 
 	}
 

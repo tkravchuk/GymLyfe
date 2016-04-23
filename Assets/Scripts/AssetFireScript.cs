@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class AssetFireScript : MonoBehaviour {
 	public int count = 0;
-	public float fireTime = 1f;
+	public float fireTime;
 	public static AssetFireScript current;
 	// Use this for initialization
 	void Start () {
 		InvokeRepeating ("Fire", fireTime, fireTime);
 		current = this;
+		fireTime = 1f / (ScoreManager.stage+1);
 	}
 
 	void Fire(){

@@ -13,38 +13,17 @@ public class MovementScript : MonoBehaviour {
 	//Maximum speed of the player
 	public float maxSpeed = 10f;
 	public float xChange;
-	//public float gravity = .5f;
 	private bool updateOn = true;
 	private PlayOneShotScript clip;
 
-	//Whether the player is facing left or right
-	//bool facingRight = true;
 
-	//Amount of force to apply when jumping
-	//public float jumpForce = 300f;
-
-	//Reference to Rigidbody2D, so we don't need to try and call GetComponent every frame and every physics timestep
 	Rigidbody2D myRigidbody;
 
-	//Whether we're on the ground or not
-	//bool grounded = false;
-
-	private Animator anim;
-
-	//The location where to check if the player has hit the ground
-	//public Transform groundCheck;
-
-	//How big the groundCheck should be
-	//float groundRadius = 0.2f;
-
-	//Determining what things are the ground or not
-	//public LayerMask whatIsGround;
 	public float timer = 46;
 	Text timerText;
 	// Use this for initialization
 	void Start () {
 		myRigidbody = GetComponent<Rigidbody2D> ();
-		anim = GetComponent<Animator> ();
 		//myRigidbody.gravityScale = gravity;
 		//clip = GameObject.Find("AudioManager").GetComponent<PlayOneShotScript>();
 		GameObject eScore = GameObject.Find ("timer");
@@ -84,7 +63,7 @@ public class MovementScript : MonoBehaviour {
 
 	void Update () {
 		//stageChange = ScoreManager.stage;
-		print(AssetFireScript.current.fireTime);
+		//print(AssetFireScript.current.fireTime);
 		checkScores();
 		rate ();
 
@@ -103,7 +82,7 @@ public class MovementScript : MonoBehaviour {
 			if ((Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2)  || Input.GetKey("left"))    //touch.position.x < Screen.width/2 || 
 				{
 					if (myRigidbody.transform.position.x > -xChange){
-						myRigidbody.transform.position = new Vector2 (transform.position.x-.3f, transform.position.y);
+						myRigidbody.transform.position = new Vector2 (transform.position.x-.12f, transform.position.y);
 					//transform.position.x -= 1;
 					//DoLeftSideStuff();
 					}
@@ -111,7 +90,7 @@ public class MovementScript : MonoBehaviour {
 			else if ((Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width/2) || Input.GetKey("right"))  //touch.position.x > Screen.width/2 ||
 				{
 					if(myRigidbody.transform.position.x < xChange){
-						myRigidbody.transform.position = new Vector2 (transform.position.x+.3f, transform.position.y);
+						myRigidbody.transform.position = new Vector2 (transform.position.x+.12f, transform.position.y);
 					//DoRightSideStuff();
 					}
 			}
@@ -141,9 +120,10 @@ public class MovementScript : MonoBehaviour {
 			stageChange = ScoreManager.stage;
 			//rate ();
 			ScrollFloor.current.scrollSpeed = ScoreManager.stage * 1.5f + 3f;
-			if (AssetFireScript.current.fireTime >= .2) {
+			AssetFireScript.current.fireTime = 1 / (ScoreManager.stage+1);
+			/*if (AssetFireScript.current.fireTime >= .2) {
 				AssetFireScript.current.fireTime -= .2f;
-			}
+			}*/
 			//onGUI ();
 			//StartCoroutine(delay());
 			exitScene ();
