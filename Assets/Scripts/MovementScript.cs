@@ -184,7 +184,7 @@ public class MovementScript : MonoBehaviour {
 					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				muscleSum += 2;
+				//muscleSum += 2;
 				energySum -= 3 * multiplier;
 				restSum -= 1 * multiplier;
 
@@ -198,7 +198,7 @@ public class MovementScript : MonoBehaviour {
 					ScoreManager.muscle += muscleSum;
 					exitScene ();
 				}
-				muscleSum += 5;
+				muscleSum += 3;
 				energySum -= 2 * multiplier;
 				restSum -= 1 * multiplier;
 			}
